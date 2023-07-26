@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Running this script multiple times is not supposed to break the system
+
 info() {
     echo -e "[\033[94mINFO\033[0m] \033[37m"$@"\033[0m" 1>&2
 }
@@ -19,15 +21,16 @@ sudo apt update
 info "Refreshing Snap"
 sudo snap refresh
 
-apt_install vim
-apt_install tmux
+apt_install curl
 apt_install git
 apt_install g++
 apt_install gcc
-apt_install zsh
-apt_install curl
+apt_install xclip
 apt_install ripgrep
 apt_install fzf
+apt_install tmux
+apt_install zsh
+apt_install vim
 snap_install nvim
 snap_install discord
 
@@ -61,12 +64,24 @@ else
 fi
 
 info "Installing Google Chrome"
-if [ $(which google-chrome | grep -c "not found") -ge 1 ]; then
+if [ "$(which google-chrome | wc -l)" -ne 1 ]; then
     info "Installing Chrome"
-    wget -O "google-chrome.deb" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-    chmod u+x "google-chrome.deb"
-    sudo dpkg -i "google-chrome.deb" 
+    wget -O google-chrome.deb "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+    chmod u+x google-chrome.deb
+    sudo dpkg -i google-chrome.deb
+    rm google-chrome.deb
 else
     info "Google Chrome is already installed, skipping..."
+fi
+
+info "Installing Rust"
+if [ "$(which rustup | wc -l)" -ne 1 ]; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh
+    chmod +x rustup.sh
+    ./rustup.sh -y -c rustc -c cargo -c rustfmt -c rust-std -c rust-docs -c rust-analyzer -c clippy -c rust-src
+    rm rustup.sh
+    source "$HOME/.cargo/env"
+else
+    info "Rust is already installed, skipping..."
 fi
 
