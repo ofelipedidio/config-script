@@ -46,10 +46,18 @@ fi
 
 info "Configuring ZSH"
 if [ ! $(echo "$SHELL" | grep -c zsh) -ge 1 ]; then
-    chsh -s $(which zsh)
+    info "Configuring ZSH - Installing oh-my-zsh"
     RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+    info "Configuring ZSH - Configuring theme"
+    mv ./my_robbyrussell.zsh-theme ~/.oh-my-zsh/themes/
+    sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="my_robbyrussell"/gi' ~/.zshrc
+
+    info "Configuring ZSH - Additional configurations"
+    mv ./.zshconfig ~
+    echo "source ~/.zshconfig" >> ~/.zshrc
 else
-    info "ZSH is already configures, skipping..."
+    info "ZSH is already configured, skipping..."
 fi
 
 info "Installing Google Chrome"
