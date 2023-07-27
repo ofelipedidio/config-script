@@ -31,6 +31,12 @@ apt_install fzf
 apt_install tmux
 apt_install zsh
 apt_install vim
+apt_install openssl 
+apt_install python3.11
+apt_install python3-pip
+apt_install python3.11-venv
+apt_install npm
+apt_install inkscape 
 snap_install nvim
 snap_install discord
 
@@ -47,17 +53,24 @@ else
     info "Nvim is already configured, skipping..."
 fi
 
+
+
 info "Configuring ZSH"
 if [ ! $(echo "$SHELL" | grep -c zsh) -ge 1 ]; then
     info "Configuring ZSH - Installing oh-my-zsh"
     RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
     info "Configuring ZSH - Configuring theme"
-    mv ./my_robbyrussell.zsh-theme ~/.oh-my-zsh/themes/
+    cp ./my_robbyrussell.zsh-theme ~/.oh-my-zsh/themes/
     sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="my_robbyrussell"/gi' ~/.zshrc
 
+    rm -rf ~/.local/scripts/
+    cp -r ./scripts/ ~/.local/scripts
+    rm -rf ~/.local/bin/
+    cp -r ./scripts/ ~/.local/bin
+
     info "Configuring ZSH - Additional configurations"
-    mv ./.zshconfig ~
+    cp ./.zshconfig ~
     echo "source ~/.zshconfig" >> ~/.zshrc
 else
     info "ZSH is already configured, skipping..."
