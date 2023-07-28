@@ -1,6 +1,9 @@
 #!/bin/bash
 
 if [[ $# -eq 1 ]]; then
+    if [ ! -d "$1" ]; then
+        mkdir -p $1
+    fi
     selected=$1
 else
     selected=$(find ~/dev ~/ufrgs/*/* ~/contest -mindepth 1 -maxdepth 1 -type d | fzf)

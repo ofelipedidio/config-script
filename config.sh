@@ -53,8 +53,6 @@ else
     info "Nvim is already configured, skipping..."
 fi
 
-
-
 info "Configuring ZSH"
 if [ ! $(echo "$SHELL" | grep -c zsh) -ge 1 ]; then
     info "Configuring ZSH - Installing oh-my-zsh"
@@ -63,11 +61,6 @@ if [ ! $(echo "$SHELL" | grep -c zsh) -ge 1 ]; then
     info "Configuring ZSH - Configuring theme"
     cp ./my_robbyrussell.zsh-theme ~/.oh-my-zsh/themes/
     sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="my_robbyrussell"/gi' ~/.zshrc
-
-    rm -rf ~/.local/scripts/
-    cp -r ./scripts/ ~/.local/scripts
-    rm -rf ~/.local/bin/
-    cp -r ./scripts/ ~/.local/bin
 
     info "Configuring ZSH - Additional configurations"
     cp ./.zshconfig ~
