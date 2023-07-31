@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Running this script multiple times is not supposed to break the system
+# Running this script multiple times is not supposed to reinstall anything the system
 
 info() {
     echo -e "[\033[94mINFO\033[0m] \033[37m"$@"\033[0m" 1>&2
@@ -14,6 +14,17 @@ apt_install() {
 snap_install() {
     info "Installing $1"
     sudo snap install "$1"
+}
+
+dpkg_install() {
+    info "Installing $1"
+    if [ "$(which "$2" | wc -l)" -ne 1 ]; then
+        wget -O package.deb "$3"
+        sudo dpkg -i package.deb
+        rm package.deb
+    else
+        info "$1 is already installed, skipping..."
+    fi
 }
 
 info "Updating APT"
@@ -40,6 +51,9 @@ apt_install inkscape
 snap_install nvim
 snap_install discord
 
+dpkg_install "Obsidian" "obsidian" "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.3.5/obsidian_1.3.5_amd64.deb"
+dpkg_install "Google Chrome" "google-chrome" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+
 info "Configuring git"
 git config --global user.email "felipe.sdidio@gmail.com"
 git config --global user.name "Felipe Didio"
@@ -57,27 +71,14 @@ info "Configuring ZSH"
 if [ ! $(echo "$SHELL" | grep -c zsh) -ge 1 ]; then
     info "Configuring ZSH - Installing oh-my-zsh"
     RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
     info "Configuring ZSH - Configuring theme"
     cp ./my_robbyrussell.zsh-theme ~/.oh-my-zsh/themes/
     sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="my_robbyrussell"/gi' ~/.zshrc
-
     info "Configuring ZSH - Additional configurations"
     cp ./.zshconfig ~
     echo "source ~/.zshconfig" >> ~/.zshrc
 else
     info "ZSH is already configured, skipping..."
-fi
-
-info "Installing Google Chrome"
-if [ "$(which google-chrome | wc -l)" -ne 1 ]; then
-    info "Installing Chrome"
-    wget -O google-chrome.deb "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-    chmod u+x google-chrome.deb
-    sudo dpkg -i google-chrome.deb
-    rm google-chrome.deb
-else
-    info "Google Chrome is already installed, skipping..."
 fi
 
 info "Installing Rust"
