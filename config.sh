@@ -48,8 +48,10 @@ apt_install python3-pip
 apt_install python3.11-venv
 apt_install npm
 apt_install inkscape 
+apt_install fuse 
 snap_install nvim
 snap_install discord
+snap_install libreoffice
 
 dpkg_install "Obsidian" "obsidian" "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.3.5/obsidian_1.3.5_amd64.deb"
 dpkg_install "Google Chrome" "google-chrome" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
