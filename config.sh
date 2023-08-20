@@ -7,13 +7,13 @@ info() {
 }
 
 apt_install() {
-    info "Installing $1"
-    sudo apt install "$1" -y
+    info "Installing" #@
+    sudo apt install $@ -y
 }
 
 snap_install() {
     info "Installing $1"
-    sudo snap install "$1"
+    sudo snap install $@ 
 }
 
 dpkg_install() {
@@ -32,24 +32,8 @@ sudo apt update
 info "Refreshing Snap"
 sudo snap refresh
 
-apt_install curl
-apt_install git
-apt_install g++
-apt_install gcc
-apt_install xclip
-apt_install ripgrep
-apt_install fzf
-apt_install tmux
-apt_install zsh
-apt_install vim
-apt_install openssl 
-apt_install python3.11
-apt_install python3-pip
-apt_install python3.11-venv
-apt_install npm
-apt_install inkscape 
-apt_install fuse 
-snap_install nvim
+apt_install curl git g++ gcc xclip ripgrep fzf tmux zsh vim openssl  python3.11 python3-pip python3.11-venv npm inkscape fuse cmake
+snap_install nvim --classic
 snap_install discord
 snap_install libreoffice
 
@@ -64,7 +48,7 @@ git config --global core.editor "nvim"
 info "Configuring nvim"
 if [ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
     git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim 
-    git clone --depth 1 git@github.com:ofelipedidio/nvim-config.git ~/.config/nvim
+    git clone --depth 1 https://github.com/ofelipedidio/nvim-config ~/.config/nvim
 else
     info "Nvim is already configured, skipping..."
 fi
