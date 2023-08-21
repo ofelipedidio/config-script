@@ -1,0 +1,1 @@
+Add '~/.config/user-dirs.dirs' to config
