@@ -7,12 +7,13 @@ sudo apt update
 info "Refreshing Snap"
 sudo snap refresh
 
-apt_install curl git g++ gcc xclip ripgrep fzf tmux zsh vim openssl  python3.11 python3-pip python3.11-venv npm inkscape fuse cmake
+apt_install curl git g++ gcc xclip ripgrep fzf tmux zsh vim openssl python3.11 python3-pip python3.11-venv npm fuse cmake jq
 snap_install nvim --classic
 snap_install discord
-snap_install libreoffice
 
-dpkg_install "Obsidian" "obsidian" "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.3.5/obsidian_1.3.5_amd64.deb"
+# Optional
+# apt_install inkscape
+# snap_install libreoffice
 dpkg_install "Google Chrome" "google-chrome" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 
 info "Configuring git"
