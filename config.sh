@@ -14,6 +14,8 @@ snap_install discord
 # Optional
 # apt_install inkscape
 # snap_install libreoffice
+
+dpkg_install "Obsidian" "obsidian" "$(curl "https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest" | jq -r '.assets[] | select(.name | endswith(".deb")) | .browser_download_url')"
 dpkg_install "Google Chrome" "google-chrome" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 
 info "Configuring git"
