@@ -19,6 +19,7 @@ info "Configuring git"
 git config --global user.email "felipe.sdidio@gmail.com"
 git config --global user.name "Felipe Didio"
 git config --global core.editor "nvim"
+git config --global core.pager "less -F -X"
 
 info "Configuring nvim"
 if [ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
